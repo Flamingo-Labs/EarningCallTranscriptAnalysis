@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "FinanceFetch_Cdahlback"
 version = "0.0.1"
 authors = [
-  { name="Example Author", email="author@example.com" },
+  { name="Collin Dahlback", email="cdahlback208@gmail.com" },
 ]
 description = "Intersection of NLP and finance, where you can leverage the tone and content of company earnings calls to predict stock price movements."
 readme = "README.md"
