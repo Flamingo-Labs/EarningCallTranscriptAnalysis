@@ -1,0 +1,6 @@
+{
+  "python.analysis.extraPaths": [
+    "./src/gptwrapper",
+    "./src/FinanceFetch_Cdahlback"
+  ]
+}

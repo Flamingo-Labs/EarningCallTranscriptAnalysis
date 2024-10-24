@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarizer and Stock Chart Viewer</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Upload a Text File for Summarization</h1>
+    <form action="{{ url_for('summarize') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <input type="submit" value="Summarize">
+    </form>
+
+    {% if summary %}
+        <h2>Summary:</h2>
+        <ul>
+            {% for point in summary.split('\n') %}
+                {% if point.strip() %}
+                    <li>{{ point.strip() }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <hr>
+
+    <h1>View Stock Chart</h1>
+    <form action="{{ url_for('view_stock') }}" method="POST">
+        <label for="symbol">Ticker Symbol:</label>
+        <input type="text" name="symbol" required>
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date" required>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date" required>
+
+        <input type="submit" value="View Chart">
+    </form>
+
+    {% if stock_chart %}
+        <h2>Stock Chart for {{ symbol }}</h2>
+        <div id="chart"></div>
+        <script>
+            var stockChartData = "{{ stock_chart | safe }}";
+            Plotly.newPlot('chart', stockChartData.data, stockChartData.layout);
+        </script>
+    {% endif %}
+</body>
+</html>

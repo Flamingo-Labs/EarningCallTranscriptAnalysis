@@ -11,7 +11,7 @@ class StockDataFetcher:
         """
         self.symbol = symbol
     
-    def fetch_historical_data(self, csv_path: str, period: str = "1y", interval: str = "1d") -> pd.DataFrame:
+    def fetch_historical_data(self, period: str = "1y", interval: str = "1d") -> pd.DataFrame:
         """
         Fetches historical stock data for the provided symbol and saves it to a CSV file.
         
@@ -142,7 +142,7 @@ def plot_candle_interactive(data, start_date=None, end_date=None):
         x=earnings_dates['Date'],
         y=earnings_dates['Close'],
         mode='markers',
-        marker=dict(symbol='triangle-up', size=25, color='red'),
+        marker=dict(symbol='triangle-up', size=10, color='red'),
         name="Earnings Report Day",
         hovertext=[
             f"Earnings Report Day<br>Close: {row['Close']}" for _, row in earnings_dates.iterrows()
