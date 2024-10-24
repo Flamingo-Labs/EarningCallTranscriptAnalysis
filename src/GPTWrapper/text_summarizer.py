@@ -1,5 +1,4 @@
 import os
-import getpass
 import constants
 from langchain_openai import ChatOpenAI
 
@@ -43,14 +42,39 @@ class TextSummarizer:
         """
         if self.text_content:
             try:
-                prompt = f"Please find the key insights out of this earnings transcript which investors might find useful:\n\n{self.text_content}"
-                self.summary = self.model(prompt)
-                print("Summary:")
-                print(self.summary)
+                prompt = (
+                    "Please summarize the following earnings transcript and extract key insights that investors might find useful. "
+                    "Order them as bullet points:\n\n"
+                    f"{self.text_content}"
+                )
+                # Get the summary from the model
+                response = self.model(prompt)
+
+                # Extract the text from the AIMessage object
+                if hasattr(response, 'content'):
+                    self.summary = response.content  # Get the content of the response
+                    # Format the summary output, e.g., as bullet points
+                    self.summary = self.format_summary(self.summary)  # Format the summary
+                    print("Formatted Summary:")
+                    print(self.summary)  # For debugging
+                else:
+                    print("No summary generated.")
             except Exception as e:
                 print(f"Error summarizing text: {e}")
         else:
             print("No text content loaded to summarize.")
+
+    def format_summary(self, summary):
+        """
+        Formats the summary into a bullet point list.
+        
+        :param summary: The raw summary text.
+        :return: Formatted string with bullet points.
+        """
+        # Split the summary into lines and create bullet points
+        bullet_points = summary.split('\n')
+        formatted_summary = "\n".join(f"• {point.strip()}" for point in bullet_points if point.strip())
+        return formatted_summary
 
     def run(self):
         """
